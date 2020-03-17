@@ -3,16 +3,15 @@
       <label class="main-label" for="search-activity-type">I want to:</label>
       <select name="activity-type" id="search-activity-type" class="form-control">
           <option value="" selected disabled hidden>What do you want to do?</option>
-          <option value="1">Play a Game</option>
-          <option value="2">Learn a Professional Skill</option>
-          <option value="3">Learn Something New</option>
+          {{#each types}}
+          <option value={{id}}>{{label}}</option>
+          {{/each}}
       </select>
       <select name="with-whom" id="search-with-whom" class="form-control">
           <option value="" selected disabled hidden>With whom?</option>
-          <option value="1">By myself</option>
-          <option value="2">With my kids</option>
-          <option value="3">With my partner</option>
-          <option value="4">With my friends</option>
+          {{#each audiences}}
+          <option value={{id}}>{{label}}</option>
+          {{/each}}
       </select>
       <button type="submit" class="btn btn-primary non-mobile-button">Go!</button>
       <div class="form-group form-check">
