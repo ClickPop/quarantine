@@ -1,7 +1,7 @@
 const airtable = require('airtable');
 require('dotenv').config();
-const base = new airtable({ apiKey: process.env.api_key }).base(
-    process.env.base_id
+const base = new airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+    process.env.AIRTABLE_BASE
 );
 
 module.exports = function(req, res, next) {
