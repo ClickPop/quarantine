@@ -8,9 +8,43 @@ const base = new airtable({ apiKey: api_key }).base(api_base);
 
 module.exports = function(req, res, next) {
     var { type, audience, free } = req.body;
+    var formula = false;
+    var activities = [];
     free = (typeof free !== "undefined" && (free === "1" || free === 1)) ? true : false;
-    type = (typeof type === "string") ? type : false;
-    audience = (typeof audience === "string") ? audience : false;
+    type = (typeof type === "string" && type.length > 0) ? type : false;
+    audience = (typeof audience === "string" && audience.length > 0) ? audience : false;
 
-    next();
+    if (type !== false && audience !== false) {
+        formula = "AND(";
+        formula += `FIND('${audience}', {audience_ids}), FIND('${type}', {type_ids})`;
+        if (free) {
+            formula += `, {is_free} = 1`
+        }
+        formula += ')';
+
+        base('activities')
+        .select({
+            view: 'Grid view',
+            filterByFormula: formula
+        })
+        .eachPage(
+            function page(records, fetchNextPage) {
+                records.forEach(function(record) {
+                    tempActivity = record.fields;
+                    tempActivity.id = record.getId();
+                    activities.push(tempActivity);
+                });
+                fetchNextPage();
+            },
+            function done(err) {
+                if (err) {
+                    next(err);
+                }
+                res.locals.activities = activities;
+                next();
+            }
+        );
+    } else {
+        next();
+    }
 };
