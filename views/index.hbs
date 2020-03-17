@@ -1,13 +1,13 @@
 <div class="search-form">
-  <form>
-      <label class="main-label" for="search-activity-type">I want to:</label>
-      <select name="activity-type" id="search-activity-type" class="form-control">
+  <form action="/search" method="post">
+      <label class="main-label" for="search-type">I want to:</label>
+      <select name="type" id="search-type" class="form-control">
           <option value="" selected disabled hidden>What do you want to do?</option>
           {{#each types}}
           <option value={{id}}>{{label}}</option>
           {{/each}}
       </select>
-      <select name="with-whom" id="search-with-whom" class="form-control">
+      <select name="audience" id="search-audience" class="form-control">
           <option value="" selected disabled hidden>With whom?</option>
           {{#each audiences}}
           <option value={{id}}>{{label}}</option>
