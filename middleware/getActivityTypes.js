@@ -16,7 +16,10 @@ module.exports = function(req, res, next) {
     .eachPage(
         function page(records, fetchNextPage) {
             records.forEach(function(record) {
-                types.push(record.fields);
+                tempType = record.fields;
+                tempType.id = record.getId();
+                types.push(tempType);
+
             });
             fetchNextPage();
         },

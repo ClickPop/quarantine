@@ -16,7 +16,9 @@ module.exports = function(req, res, next) {
     .eachPage(
         function page(records, fetchNextPage) {
             records.forEach(function(record) {
-                audiences.push(record.fields);
+                tempAudience = record.fields;
+                tempAudience.id = record.getId();
+                audiences.push(tempAudience);
             });
             fetchNextPage();
         },
