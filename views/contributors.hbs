@@ -1,0 +1,30 @@
+<div class="container-fluid"><div class="row">
+    {{#each contributors}}
+    <div class="col-4">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title my-0">{{name}}</h2>
+            </div>
+            <div class="card-body">
+                {{#if headshot}}
+                <img src={{headshot.0.url}} height="100" width="100" class="img-thumbnail mb-2">
+                {{/if}}
+                {{#if bio}}
+                <p class="card-text">{{bio}}</p>
+                {{/if}}
+            </div>
+            <div class="card-footer text-center">
+                {{#if showcase-twitter}}
+                <a href="http://twitter.com/{{showcase-twitter}}" target="_blank" class="btn btn-primary">Twitter</a>
+                {{/if}}
+                {{#if showcase-website}}
+                <a href="http://{{showcase-website}}" target="_blank" class="btn btn-primary">Website</a>
+                {{/if}}
+                {{#if showcase-other}}
+                <a href="http://{{showcase-other}}" target="_blank" class="btn btn-primary">Other</a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div></div>
