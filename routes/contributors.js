@@ -3,14 +3,9 @@ const router = express.Router();
 const contributorLookup = require('../middleware/contributorLookup');
 
 router.get('/', contributorLookup, (req, res) => {
-    console.log(req.c);
     res.render('contributors', {
-        contributors: JSON.stringify(req.c)
+        contributors: req.contributors
     });
-});
-
-router.get('/:id', contributorLookup, (req, res) => {
-    res.render('contributor');
 });
 
 module.exports = router;
