@@ -19,7 +19,6 @@ module.exports = function(req, res, next) {
                 tempType = record.fields;
                 tempType.id = record.getId();
                 types.push(tempType);
-
             });
             fetchNextPage();
         },
