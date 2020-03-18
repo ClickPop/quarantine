@@ -8,9 +8,10 @@ var sendActivities = require('../middleware/sendActivities');
 /* GET home page. */
 router.get('/', getActivityTypes, getAudiences, function(req, res, next) {
   res.render('index', { 
-    title: 'Express', 
+    title: 'Quarantine Fun!', 
     types: req.types, 
-    audiences: req.audiences 
+    audiences: req.audiences,
+    layout: 'fullscreen'
   });
 });
 

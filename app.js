@@ -4,9 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
+const hbs = require('express-handlebars');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const contributorsRouter = require('./routes/contributors');
 
 const app = express();
@@ -14,6 +14,15 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.engine('hbs', hbs({
+    extname: 'hbs', 
+    defaultLayout: 'default', 
+    layoutDir: path.join(__dirname, 'views', 'layouts'), // for layouts
+    partialsDir  : [
+        //  path to your partials
+        path.join(__dirname, 'views', 'partials')
+    ]
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -30,7 +39,6 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/contributors', contributorsRouter);
 
 // catch 404 and forward to error handler

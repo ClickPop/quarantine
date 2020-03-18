@@ -1,0 +1,28 @@
+<form action="/search" method="post">
+  <div class="form-inline">
+    <div class="mb-3" for="search-type">I want to:</div>
+
+    <select name="type" id="search-type" class="form-control mb-3 mx-md-1">
+      <option value="" selected disabled hidden>What do you want to do?</option>
+      {{#each types}}
+      <option value={{id}}>{{label}}</option>
+      {{/each}}
+    </select>
+
+    <select name="audience" id="search-audience" class="form-control mb-3 mx-md-1">
+      <option value="" selected disabled hidden>With whom?</option>
+      {{#each audiences}}
+      <option value={{id}}>{{label}}</option>
+      {{/each}}
+    </select>
+
+    <button type="submit" class="btn btn-primary mb-3 ml-md-2">Go!</button>
+  </div>
+
+  <div class="form-inline">
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="search-free" name="free" value="1">
+      <label class="form-check-label" for="search-free">Free activities only, please!</label>
+    </div>
+  </div>
+</form>
