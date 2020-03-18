@@ -1,7 +1,6 @@
 
 module.exports = function(req, res) {
     var activity = res.locals.activity;
-    console.log(res.locals);
     var data = { success: false, message: 'Unknown error' };
     var status = 500;
 

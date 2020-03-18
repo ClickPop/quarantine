@@ -15,15 +15,18 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.engine('hbs', hbs({
-    extname: 'hbs', 
-    defaultLayout: 'default', 
-    layoutDir: path.join(__dirname, 'views', 'layouts'), // for layouts
-    partialsDir  : [
-        //  path to your partials
-        path.join(__dirname, 'views', 'partials')
-    ]
-}));
+app.engine(
+    'hbs',
+    hbs({
+        extname: 'hbs',
+        defaultLayout: 'default',
+        layoutDir: path.join(__dirname, 'views', 'layouts'), // for layouts
+        partialsDir: [
+            //  path to your partials
+            path.join(__dirname, 'views', 'partials')
+        ]
+    })
+);
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -1,4 +1,4 @@
-<form action="/search" method="post">
+<form>
   <div class="form-inline">
     <div class="mb-3" for="search-type">I want to:</div>
 
@@ -15,10 +15,8 @@
       <option value={{id}}>{{label}}</option>
       {{/each}}
     </select>
-
-    <button type="submit" class="btn btn-primary mb-3 ml-md-2">Go!</button>
+    <input type="button" id="go" class="btn btn-primary mb-3 ml-md-2" value="Go!" />
   </div>
-
   <div class="form-inline">
     <div class="form-group form-check">
       <input type="checkbox" class="form-check-input" id="search-free" name="free" value="1">
