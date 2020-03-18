@@ -8,4 +8,6 @@ router.get('/', contributorLookup, (req, res) => {
     });
 });
 
+router.get('/:id', contributorLookup);
+
 module.exports = router;

@@ -22,12 +22,56 @@ $(document).ready(function() {
                     url,
                     contributor
                 } = response.data;
-                
-                $(
-                    `<div id="result" class="d-flex flex-row">
+
+                if (contributor !== undefined) {
+                    $.ajax({
+                        type: 'get',
+                        url: `/contributors/${contributor}`,
+                        success: function(response) {
+                            const { name, headshot } = response.data;
+                            $(
+                                `<div id="result" class="d-flex flex-row">
+                                    <div id="activity" class="d-block card mt-2">
+                                        <div class="card-header mt-1">
+                                            <h1 class="card-title mt-1">${activity}</h1>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text mt-1">${description}</p>
+                                            ${
+                                                url !== undefined
+                                                    ? `<a href=${url} target="_blank" class="btn btn-primary mt-1">LINK</a>`
+                                                    : ''
+                                            }
+                                        </div>
+                                        <div class="card-footer mt-1">${
+                                            is_free ? 'FREE' : 'NOT FREE'
+                                        }</div>
+                                    </div>
+                                    <div id="contributor class="d-block card mt-2">
+                                        <div class="card-header mt-1">
+                                            <h1 class="card-title mt-1">By: ${name}</h1>
+                                        </div>
+                                        <div class="card-body">
+                                            ${
+                                                headshot !== undefined
+                                                    ? `<img src=${headshot[0].url} class="img-thumbnail" height="100" width="100">`
+                                                    : ''
+                                            }
+                                        </div>
+                                        <div class="card-footer mt-1">
+                                            <a href="#!" class="btn btn-primary">Link to Bio</a>
+                                        </div>
+                                    </div>
+                                </div>`
+                            ).appendTo('form');
+                        }
+                    });
+                } else {
+                    $(
+                        `<div id="result" class="d-flex flex-row">
                         <div id="activity" class="d-block card mt-2">
-                            <div class="card-header mt-1>
-                                <h1 class="card-title mt-1>${activity}</h1>
+                            <div class="card-header mt-1">
+                                <h1 class="card-title mt-1">${activity}</h1>
                             </div>
                             <div class="card-body">
                                 <p class="card-text mt-1">${description}</p>
@@ -42,7 +86,8 @@ $(document).ready(function() {
                             }</div>
                         </div>
                     </div>`
-                ).appendTo('form');
+                    ).appendTo('form');
+                }
             }
         });
     });
