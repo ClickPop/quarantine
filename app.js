@@ -7,6 +7,7 @@ const sassMiddleware = require('node-sass-middleware');
 const hbs = require('express-handlebars');
 
 const indexRouter = require('./routes/index');
+const searchRouter = require('./routes/search');
 const contributorsRouter = require('./routes/contributors');
 
 const app = express();
@@ -39,6 +40,7 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/search', searchRouter);
 app.use('/contributors', contributorsRouter);
 
 // catch 404 and forward to error handler
