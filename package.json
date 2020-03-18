@@ -22,7 +22,9 @@
     "popper.js": "1.16.1"
   },
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
