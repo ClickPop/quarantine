@@ -16,9 +16,12 @@ module.exports = function(req, res, next) {
 
     if (type !== false && audience !== false) {
         formula = "AND(";
-        formula += `FIND('${audience}', {audience_ids}), FIND('${type}', {type_ids})`;
+        formula += `FIND('${audience}', ARRAYJOIN({audience_ids}, ', ')), FIND('${type}', ARRAYJOIN({type_ids}, ', '))`;
         if (free) {
             formula += `, {is_free} = 1`
+        }
+        if (false) {
+            formula += `, {approved} = 1`
         }
         formula += ')';
 
@@ -40,7 +43,7 @@ module.exports = function(req, res, next) {
                 if (err) {
                     next(err);
                 }
-                res.locals.activities = activities;
+                res.locals.activity = activities[Math.round(Math.random() * (activities.length - 1))];
                 next();
             }
         );
