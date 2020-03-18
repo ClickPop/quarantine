@@ -1,41 +1,10 @@
 @import "includes/variables";
 @import "../..//node_modules/bootstrap/scss/bootstrap";
+@import "includes/logo";
 
 body {
     min-height: 100vh;
     position: relative;
-
-    &.fullscreen {
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        flex-wrap: wrap;
-
-        .app-wrapper {
-            width: 100%;
-            flex-basis: 100%;
-        
-            justify-content: center;
-            text-align: center;
-            align-self: center;
-        }
-
-        .logo {
-            margin: 0 auto;
-        
-            h1, span {
-                text-indent: -9999em;
-                width: 270px;
-                height: (270px * (287 / 960));
-                background-image: url(../images/logo.gif);
-                background-position: 50% 50%;
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-color: transparent;
-            }
-            
-        }
-    }
 }
 
 
@@ -51,66 +20,3 @@ body {
     }
 }
 // END: Login Form
-
-// START: Search Form
-.search-form {
-
-    .main-label {
-        display: block;
-        line-height: 1;
-        margin: 0.5rem auto;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    select {
-        display: block;
-        max-width: 250px;
-        margin: 0.5rem auto;
-    }
-    .form-check {
-        display: block;
-        width: 100%;
-    }
-    .mobile-button {
-        display: block;
-        margin: 0.5rem auto;
-    }
-    .non-mobile-button {
-        display: none;
-    }
-
-    @include media-breakpoint-up(md) {
-        display: inline-block;
-        .main-label {
-            display: inline-block;
-            margin: 0.25rem;
-        }
-        select {
-            display: inline-block;
-            margin: 0.25rem;
-            width: 250px;
-        }
-        .form-check {
-            text-align: left;
-            display: block;
-            margin: 0.25rem;
-        }
-        .mobile-button {
-            display: none;
-        }
-        .non-mobile-button {
-            display: inline-block;
-        }
-    }
-}
-
-
-// END: Search Form
-
-.site-footer {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    z-index: 2;
-    text-align: center;
-}
