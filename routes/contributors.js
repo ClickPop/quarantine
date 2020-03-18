@@ -4,8 +4,7 @@ const contributorLookup = require('../middleware/contributorLookup');
 
 router.get('/', contributorLookup, (req, res) => {
     res.render('contributors', {
-        contributors: req.contributors,
-        layout: 'layout-simple'
+        contributors: req.contributors
     });
 });
 

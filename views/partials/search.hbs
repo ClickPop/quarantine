@@ -1,0 +1,23 @@
+<div class="search-form">
+  <form action="/search" method="post">
+      <label class="main-label" for="search-type">I want to:</label>
+      <select name="type" id="search-type" class="form-control">
+          <option value="" selected disabled hidden>What do you want to do?</option>
+          {{#each types}}
+          <option value={{id}}>{{label}}</option>
+          {{/each}}
+      </select>
+      <select name="audience" id="search-audience" class="form-control">
+          <option value="" selected disabled hidden>With whom?</option>
+          {{#each audiences}}
+          <option value={{id}}>{{label}}</option>
+          {{/each}}
+      </select>
+      <button type="submit" class="btn btn-primary non-mobile-button">Go!</button>
+      <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="search-free" name="free" value="1">
+          <label class="form-check-label" for="search-free">Free activities only, please!</label>
+      </div>
+      <button type="submit" class="btn btn-primary mobile-button">Go!</button>
+  </form>
+</div>
