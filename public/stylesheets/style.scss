@@ -1,6 +1,9 @@
-@import "includes/variables";
-@import "../..//node_modules/bootstrap/scss/bootstrap";
-@import "includes/logo";
+@import url('https://fonts.googleapis.com/css?family=Bellota+Text:400,400i,700,700i|Coustard:400,900&display=swap');
+
+@import "includes/variables",
+        "../..//node_modules/bootstrap/scss/bootstrap",
+        "includes/logo",
+        "includes/typography";
 
 body {
     min-height: 100vh;
