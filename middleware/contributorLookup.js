@@ -6,7 +6,6 @@ const base = new airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 
 module.exports = function(req, res, next) {
     contributors = [];
-    headshots = [];
     base('contributors')
         .select({
             view: 'Grid view'
@@ -14,7 +13,6 @@ module.exports = function(req, res, next) {
         .eachPage(
             function page(records, fetchNextPage) {
                 records.forEach(record => {
-                    console.log(record.fields);
                     contributors.push(record.fields);
                 });
 
@@ -26,7 +24,6 @@ module.exports = function(req, res, next) {
                     return;
                 }
                 req.contributors = contributors;
-                req.headshots = headshots;
                 next();
             }
         );
