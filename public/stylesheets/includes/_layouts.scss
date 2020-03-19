@@ -1,0 +1,34 @@
+// Fullscreen Layout
+.fullscreen {
+  background: url('../images/bg/tl.svg'),
+              url('../images/bg/tml.svg'),
+              url('../images/bg/tmr.svg'),
+              url('../images/bg/tr.svg'),
+              url('../images/bg/bl.svg'),
+              url('../images/bg/bml.svg'),
+              url('../images/bg/bmr.svg'),
+              url('../images/bg/br.svg')
+              $body-bg;
+  background-position:  left 5vh,
+                        20vw 2vh,
+                        50vw top,
+                        right 3vh,
+                        left 70vh,
+                        25vw bottom,
+                        55vw bottom,
+                        right 40vh;
+  background-repeat: no-repeat;
+  background-size:  15vh,
+                    30vh,
+                    40vh,
+                    25vh,
+                    15vh,
+                    25vh,
+                    40vh,
+                    15vh;
+
+  &__container {
+    background: rgba($body-bg, 0.8);
+    border-radius: 1rem;
+  }
+}
