@@ -1,17 +1,17 @@
 <form class="form__container px-3 py-4">
   <div class="d-md-flex justify-content-center align-items-center">
-    <div class="mb-3 mb-sm-0" style="flex-shrink: 0;">
+    <div class="mb-3 mb-md-0" style="flex-shrink: 0;">
         I want to:
     </div>
 
-    <select name="type" id="search-type" class="form-control mb-3 mb-sm-0 mx-md-1">
+    <select name="type" id="search-type" class="form-control mb-3 mb-md-0 mx-md-1">
       <option value="" selected disabled hidden>What do you want to do?</option>
       {{#each types}}
       <option value={{id}}>{{label}}</option>
       {{/each}}
     </select>
 
-    <select name="audience" id="search-audience" class="form-control mb-3 mb-sm-0 mx-sm-1">
+    <select name="audience" id="search-audience" class="form-control mb-3 mb-md-0 mx-sm-1">
       <option value="" selected disabled hidden>With whom?</option>
       {{#each audiences}}
       <option value={{id}}>{{label}}</option>
