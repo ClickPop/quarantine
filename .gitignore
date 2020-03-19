@@ -1,3 +1,7 @@
+# Package Specific
+public/stylesheets/*.css
+public/stylesheets/*.css.map
+
 # OS X
 .DS_Store*
 Icon?
