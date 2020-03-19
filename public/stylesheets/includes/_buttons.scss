@@ -1,0 +1,8 @@
+.btn {
+  &-block-xs {
+    @media (max-width: $sm) {
+      display: block;
+      width: 100%;
+    }
+  }
+}

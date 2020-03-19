@@ -3,7 +3,9 @@
 @import "includes/variables",
         "../..//node_modules/bootstrap/scss/bootstrap",
         "includes/logo",
-        "includes/typography";
+        "includes/typography",
+        "includes/buttons",
+        "includes/layouts";
 
 body {
     min-height: 100vh;
