@@ -1,0 +1,14 @@
+.bg {
+  &--salmon {
+    background: $salmon !important;
+  }
+
+  &--mustard {
+    background: $mustard !important;
+  }
+
+  &--slate {
+    background: $slate !important;
+    color: white;
+  }
+}

@@ -23,71 +23,64 @@ $(document).ready(function() {
                     contributor
                 } = response.data;
 
-                if (contributor !== undefined) {
-                    $.ajax({
-                        type: 'get',
-                        url: `/contributors/${contributor}`,
-                        success: function(response) {
-                            const { name, headshot } = response.data;
-                            $(
-                                `<div id="result" class="d-flex flex-row">
-                                    <div id="activity" class="d-block card mt-2">
-                                        <div class="card-header mt-1">
-                                            <h1 class="card-title mt-1">${activity}</h1>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text mt-1">${description}</p>
-                                            ${
-                                                url !== undefined
-                                                    ? `<a href=${url} target="_blank" class="btn btn-primary mt-1">LINK</a>`
-                                                    : ''
-                                            }
-                                        </div>
-                                        <div class="card-footer mt-1">${
-                                            is_free ? 'FREE' : 'NOT FREE'
-                                        }</div>
-                                    </div>
-                                    <div id="contributor class="d-block card mt-2">
-                                        <div class="card-header mt-1">
-                                            <h1 class="card-title mt-1">By: ${name}</h1>
-                                        </div>
-                                        <div class="card-body">
-                                            ${
-                                                headshot !== undefined
-                                                    ? `<img src=${headshot[0].url} class="img-thumbnail" height="100" width="100">`
-                                                    : ''
-                                            }
-                                        </div>
-                                        <div class="card-footer mt-1">
-                                            <a href="#!" class="btn btn-primary">Link to Bio</a>
-                                        </div>
-                                    </div>
-                                </div>`
-                            ).appendTo('form');
-                        }
-                    });
-                } else {
-                    $(
-                        `<div id="result" class="d-flex flex-row">
-                        <div id="activity" class="d-block card mt-2">
-                            <div class="card-header mt-1">
-                                <h1 class="card-title mt-1">${activity}</h1>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text mt-1">${description}</p>
-                                ${
-                                    url !== undefined
-                                        ? `<a href=${url} target="_blank" class="btn btn-primary mt-1">LINK</a>`
-                                        : ''
-                                }
-                            </div>
-                            <div class="card-footer mt-1">${
-                                is_free ? 'FREE' : 'NOT FREE'
-                            }</div>
+                $.ajax({
+                  type: 'get',
+                  url: `/contributors/${contributor}`,
+                  success: function(response) {
+                      const { name, headshot } = response.data;
+
+                      $('#logo').slideUp('fast');
+
+                      $('.form__container').addClass('bg--salmon')
+
+                      const contributorInfo = `
+                        <div class="mt-5 mb-2">
+                          This great idea came from...
                         </div>
-                    </div>`
-                    ).appendTo('form');
-                }
+                        <div class="d-flex align-items-center">
+                          ${
+                            headshot !== undefined
+                            ? `<img src=${headshot[0].url} class="img-thumbnail rounded-circle mr-2" width="80">`
+                            : ''
+                          }
+                          <div>
+                            ${name}
+                          </div>
+                      `;
+
+                      $(`
+                        <div id="result" class="row px-3">
+                          <div class="col-12 col-md-10 offset-md-1">
+                            <div class="result__container py-3 py-sm-5 mt-2">
+                              <h1>
+                                ${activity}
+                              </h1>
+                              <p>
+                                ${description}
+                              </p>
+                              ${
+                                url !== undefined
+                                ? `<a href=${url} target="_blank" class="btn btn-primary btn-sm mt-1">Learn more</a>`
+                                : ''
+                              }
+
+                              ${contributor !== undefined
+                                ? contributorInfo
+                                : ''
+                              }
+
+                            </div>
+                          </div>
+                        </div>
+                        `
+                      ).appendTo('.fullscreen__container')
+                      .css('opacity', 0)
+                      .animate(
+                        { opacity: 1 }
+                      );
+                  }
+              });
+
             }
         });
     });

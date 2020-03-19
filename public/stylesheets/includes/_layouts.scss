@@ -28,7 +28,16 @@
                     15vh;
 
   &__container {
-    background: rgba($body-bg, 0.8);
-    border-radius: 1rem;
+
+    @media (max-width: $sm) {
+      background: rgba($body-bg, 0.8);
+      border-radius: 0.5rem;
+    }
+  }
+
+  .form__container {
+    background: transparent;
+    transition: background 0.3s;
+    border-radius: 0.5rem;
   }
 }
