@@ -7142,7 +7142,7 @@ a.text-dark:hover, a.text-dark:focus {
 .logo {
   color: #343a40;
   font-family: "Coustard", georgia, serif;
-  font-size: 6vh;
+  font-size: 2.5vw;
   font-weight: 900;
   line-height: 1.2;
   text-align: left;
@@ -7157,12 +7157,30 @@ a.text-dark:hover, a.text-dark:focus {
     .logo {
       font-size: 1.5rem; } }
 
+.bg--salmon {
+  background: #ffa485 !important; }
+
+.bg--mustard {
+  background: #f1c05e !important; }
+
+.bg--slate {
+  background: #3F4152 !important;
+  color: white; }
+
 html {
   font-size: 18px; }
 
 body {
   color: #3F4152;
   font-family: "Bellota", helvetica, arial, sans-seif; }
+
+h1 {
+  font-family: "Coustard", georgia, serif;
+  font-size: 2.5vw;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: left;
+  text-transform: uppercase; }
 
 @media (max-width: 576px) {
   .btn-block-xs {
@@ -7174,9 +7192,14 @@ body {
   background-position: left 5vh, 20vw 2vh, 50vw top, right 3vh, left 70vh, 25vw bottom, 55vw bottom, right 40vh;
   background-repeat: no-repeat;
   background-size: 15vh, 30vh, 40vh, 25vh, 15vh, 25vh, 40vh, 15vh; }
-  .fullscreen__container {
-    background: rgba(232, 230, 217, 0.8);
-    border-radius: 1rem; }
+  @media (max-width: 576px) {
+    .fullscreen__container {
+      background: rgba(232, 230, 217, 0.8);
+      border-radius: 0.5rem; } }
+  .fullscreen .form__container {
+    background: transparent;
+    transition: background 0.3s;
+    border-radius: 0.5rem; }
 
 body {
   min-height: 100vh;

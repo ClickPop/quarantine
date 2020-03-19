@@ -8,14 +8,22 @@
 </head>
 
 <body class="fullscreen d-flex flex-column justify-content-center align-items-center p-2">
-  <div class="fullscreen__container p-3 mb-5">
-    <div class="mb-2 mb-sm-4">
-      <a class="logo" href="/">Things to Do When the<br />World Gets Canceled</a>
+  <div class="fullscreen__container container mb-5">
+
+    <div id="logo" class="row">
+      <div class="col-12 col-md-10 offset-md-1">
+        <div class="logo__container px-3">
+          <a class="logo" href="/">Things to Do When the<br />World Gets Canceled</a>
+        </div>
+      </div>
     </div>
 
-    <div>
-      {{{body}}}
+    <div id="form" class="row">
+      <div class="col-12 col-md-10 offset-md-1">
+        {{{body}}}
+      </div>
     </div>
+
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
