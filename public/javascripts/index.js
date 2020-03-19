@@ -40,7 +40,7 @@ $(document).ready(function() {
                         <div class="d-flex align-items-center">
                           ${
                             headshot !== undefined
-                            ? `<img src=${headshot[0].url} class="img-thumbnail rounded-circle" width="90">`
+                            ? `<img src=${headshot[0].url} class="img-thumbnail rounded-circle mr-2" width="80">`
                             : ''
                           }
                           <div>
@@ -51,7 +51,7 @@ $(document).ready(function() {
                       $(`
                         <div if="results" class="row px-3">
                           <div class="col-12 col-md-10 offset-md-1">
-                            <div class="result__container py-5 mt-2">
+                            <div class="result__container py-3 py-sm-5 mt-2">
                               <h1>
                                 ${activity}
                               </h1>
