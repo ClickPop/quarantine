@@ -49,7 +49,7 @@ $(document).ready(function() {
                       `;
 
                       $(`
-                        <div if="results" class="row px-3">
+                        <div id="result" class="row px-3">
                           <div class="col-12 col-md-10 offset-md-1">
                             <div class="result__container py-3 py-sm-5 mt-2">
                               <h1>
