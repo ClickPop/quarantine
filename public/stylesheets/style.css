@@ -7200,6 +7200,14 @@ h1 {
     transition: background 0.3s;
     border-radius: 0.5rem; }
 
+.footer {
+  bottom: 0;
+  padding: 15px;
+  position: absolute; }
+  @media (max-width: 576px) {
+    .footer {
+      position: relative; } }
+
 body {
   min-height: 100vh;
   position: relative; }
