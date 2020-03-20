@@ -1,18 +1,16 @@
-
 module.exports = function(req, res) {
-    let activity = res.locals.activity;
-    let data = { success: false, message: 'Unknown error' };
-    let status = 500;
+  let activity = res.locals.activity;
+  let data = { success: false, message: 'Unknown error' };
+  let status = 500;
 
-    res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Type', 'application/json');
 
-    if (typeof activity === 'object') {
-        status = 201;
-        data = {
-            success: true,
-            data: activity
-        };
-    }
-    console.log(activity);
-    res.status(status).send(JSON.stringify(data));
+  if (typeof activity === 'object') {
+    status = 201;
+    data = {
+      success: true,
+      data: activity
+    };
+  }
+  res.status(status).send(JSON.stringify(data));
 };
