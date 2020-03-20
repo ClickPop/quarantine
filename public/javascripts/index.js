@@ -5,7 +5,6 @@ $(document).ready(function() {
     let audience = $('#search-audience option:selected').attr('value');
     let free = $('#search-free').is(':checked');
 
-
     $.ajax({
       type: 'post',
       url: '/search',
@@ -27,8 +26,8 @@ $(document).ready(function() {
             <li class="d-flex align-items-center">
               ${
                 contributor.headshot !== undefined
-                ? `<img src=${contributor.headshot[0].url} class="img-thumbnail rounded-circle mr-2" width="60">`
-                : ''
+                  ? `<img src=${contributor.headshot[0].url} class="img-thumbnail rounded-circle mr-2" width="60">`
+                  : ''
               }
               <p class="m-0">${contributor.name}</p>
             </li>`);
@@ -48,19 +47,17 @@ $(document).ready(function() {
             <div class="result__container py-3 py-sm-4 mt-sm-2">
               <h1>${activity.title}</h1>
               <p>${activity.description}</p>
-              ${(activity.url !== undefined)
-                ? `<a href=${activity.url} target="_blank" class="btn btn-dark btn-sm mt-1">Learn more</a>`
-                : ''
+              ${
+                activity.url !== undefined
+                  ? `<a href=${activity.url} target="_blank" class="btn btn-dark btn-sm mt-1">Learn more</a>`
+                  : ''
               }
-
-              ${(activity.contributors !== undefined)
-                ? contributorInfo
-                : ''
-              }
+              ${activity.contributors !== undefined ? contributorInfo : ''}
             </div>
           </div>`;
 
-        $(result).appendTo('#result')
+        $(result)
+          .appendTo('#result')
           .css('opacity', 0)
           .animate({
             opacity: 1
@@ -69,6 +66,14 @@ $(document).ready(function() {
         $('#logo').slideUp('fast');
         $('#result').slideDown('fast');
         $('.form__container').addClass('bg--lavender');
+
+        history.pushState(
+          {
+            id: 'searchResult'
+          },
+          'Result',
+          `/activities/${activity.id}`
+        );
       }
     });
   });

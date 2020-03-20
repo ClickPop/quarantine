@@ -1,0 +1,22 @@
+<div class="col-12 col-md-10 offset-md-1">
+  <div class="result__container py-3 py-sm-4 mt-sm-2">
+    <h1 class="card-title">{{ activity.title }}</h1>
+    <p>{{ activity.description }}</p>
+    {{#if activity.url}}
+    <a href={{activity.url}} class="btn btn-dark btn-sm mt-1" target="_blank">Learn more</a>
+    {{/if}}
+    <div class="mt-5 mb-2">
+      This great idea came from...
+      <ul class="p-0 d-flex">
+        {{#each activity.contributors}}
+        <li class="d-flex align-items-center">
+          {{#if headshot}}
+          <img src={{headshot.0.url}} class="img-thumbnail rounded-circle mr-2" width="60">
+          {{/if}}
+          <p class="m-0">{{name}}</p>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
