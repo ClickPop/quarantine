@@ -1,0 +1,9 @@
+.footer {
+  bottom: 0;
+  padding: 15px;
+  position: absolute;
+
+  @media (max-width: $sm) {
+    position: relative;
+  }
+}
