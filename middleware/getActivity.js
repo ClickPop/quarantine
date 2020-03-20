@@ -37,6 +37,7 @@ module.exports = function(req, res, next) {
             id: record.getId(),
             title: record.fields.activity,
             description: record.fields.description,
+            url: record.fields.url,
             free: record.fields.is_free,
             approved: record.fields.approved
           };

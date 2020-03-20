@@ -5,4 +5,9 @@
       width: 100%;
     }
   }
+
+  &:active {
+    background-color: $slate !important;
+    border-color: $slate !important;
+  }
 }
