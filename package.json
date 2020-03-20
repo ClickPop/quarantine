@@ -20,7 +20,6 @@
     "morgan": "~1.9.1",
     "node-sass-middleware": "0.11.0",
     "popper.js": "1.16.1",
-    "ssl-express-www": "3.0.6"
   },
   "main": "app.js",
   "devDependencies": {
