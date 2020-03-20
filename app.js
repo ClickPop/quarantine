@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const hbs = require('express-handlebars');
-const secure = require('ssl-express-www');
 
 const indexRouter = require('./routes/index');
 const searchRouter = require('./routes/search');
@@ -30,7 +29,6 @@ app.engine(
   })
 );
 
-app.use(secure);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
