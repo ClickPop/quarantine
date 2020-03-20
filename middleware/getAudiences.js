@@ -7,7 +7,7 @@ const api_base = process.env.AIRTABLE_BASE;
 const base = new airtable({ apiKey: api_key }).base(api_base);
 
 module.exports = function(req, res, next) {
-    var audiences = [];
+    let audiences = [];
 
     base('with-whom')
     .select({
