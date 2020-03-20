@@ -22,6 +22,9 @@ module.exports = function(req, res, next) {
   if (typeof audience === 'string' && audience.length > 0) {
     formulaParts.push(`FIND('${audience}', ARRAYJOIN({audience_ids}, ', '))`);
   }
+  if (req.params.id !== undefined) {
+    formulaParts.push(`RECORD_ID() = '${req.params.id}'`);
+  }
 
   selectArgs.view = 'Grid view';
   if (formulaParts.length > 0) {
