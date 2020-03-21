@@ -6,8 +6,10 @@
     }
   }
 
-  &:active {
-    background-color: $slate !important;
-    border-color: $slate !important;
+  &-warning {
+    &:active {
+      background-color: darken($warning, 20%) !important;
+      border-color: darken($warning, 20%) !important;
+    }
   }
 }
