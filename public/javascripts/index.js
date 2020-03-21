@@ -2,7 +2,7 @@ function handleSearchResponse(response) {
   var activity = false;
   $('#result > div').remove();
   if (typeof response === 'object') {
-    if (response.hasOwnProperty('title')) {
+    if (response.hasOwnProperty('title')) {cli
       activity = response;
     } else if (response.hasOwnProperty('data')
     && typeof response.data === 'object' && response.data.hasOwnProperty('title')) {
@@ -78,6 +78,8 @@ $(document).ready(function() {
     var type = $('#search-type option:selected').attr('value');
     var audience = $('#search-audience option:selected').attr('value');
     var free = $('#search-free').is(':checked');
+
+    ga('send', 'event', 'search', 'click', type + ' | ' + audience);
 
     $.ajax({
       type: 'post',
