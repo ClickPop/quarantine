@@ -64,6 +64,7 @@ $(document).ready(function() {
           });
 
         $('#logo').slideUp('fast');
+        $('#miniLogo').slideDown('fast');
         $('#result').slideDown('fast');
         $('.form__container').addClass('bg--lavender');
 
