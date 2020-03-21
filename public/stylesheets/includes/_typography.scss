@@ -13,4 +13,8 @@ h1 {
   line-height: 1.2;
   text-align: left;
   text-transform: uppercase;
+
+  @media (max-width: $sm) {
+    font-size: 1.4rem;
+  }
 }
