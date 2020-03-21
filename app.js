@@ -8,7 +8,6 @@ const hbs = require('express-handlebars');
 const forceSecure = require('force-secure-express');
 
 const indexRouter = require('./routes/index');
-const searchRouter = require('./routes/search');
 const contributorsRouter = require('./routes/contributors');
 const activitiesRouter = require('./routes/activities');
 
@@ -50,7 +49,6 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/search', searchRouter);
 app.use('/contributors', contributorsRouter);
 app.use('/activities', activitiesRouter);
 
