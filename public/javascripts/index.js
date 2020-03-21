@@ -1,6 +1,6 @@
 var searchFormData = {
-  type: "",
-  audience: "",
+  type: '',
+  audience: '',
   free: false
 };
 
@@ -9,44 +9,52 @@ function updateSearchFormDataLayer() {
     var count = dataLayer.length;
     var updated = false;
     for (i = 0; i < count; i++) {
-      if (typeof dataLayer[i] === 'object' && dataLayer[i].hasOwnProperty('activity-search-form-data')) {
+      if (
+        typeof dataLayer[i] === 'object' &&
+        dataLayer[i].hasOwnProperty('activity-search-form-data')
+      ) {
         dataLayer[i] = searchFormData;
         updated = true;
       }
     }
     if (!updated) {
-      dataLayer.push({'activity-search-form-data': searchFormData});
+      dataLayer.push({ 'activity-search-form-data': searchFormData });
     }
   }
 }
 
 function updateSearchFormData() {
-  $('#activity-search-form').find('select,input,textarea').each(function() {
-    var $this = $(this);
-    var value = $this.val();
-    var id = $this.attr('id');
+  $('#activity-search-form')
+    .find('select,input,textarea')
+    .each(function() {
+      var $this = $(this);
+      var value = $this.val();
+      var id = $this.attr('id');
 
-    if (id === 'search-type') {
-      searchFormData.type = value;
-    }
-    if (id === 'search-audience') {
-      searchFormData.audience = value;
-    }
-    if (id === 'search-free') {
-      searchFormData.free = ($this.is(':checked')) ? true : false;
-    }
-  });
+      if (id === 'search-type') {
+        searchFormData.type = value;
+      }
+      if (id === 'search-audience') {
+        searchFormData.audience = value;
+      }
+      if (id === 'search-free') {
+        searchFormData.free = $this.is(':checked') ? true : false;
+      }
+    });
   updateSearchFormDataLayer();
 }
 
-function handleSearchResponse(response) {
+function handleSearchResponse(response, error) {
   var activity = false;
   $('#result > div').remove();
   if (typeof response === 'object') {
     if (response.hasOwnProperty('title')) {
       activity = response;
-    } else if (response.hasOwnProperty('data')
-    && typeof response.data === 'object' && response.data.hasOwnProperty('title')) {
+    } else if (
+      response.hasOwnProperty('data') &&
+      typeof response.data === 'object' &&
+      response.data.hasOwnProperty('title')
+    ) {
       activity = response.data;
     }
   } else {
@@ -91,6 +99,23 @@ function handleSearchResponse(response) {
       </div>
     </div>`;
 
+  const noActivity = `
+    <div class="col-12 col-md-10 offset-md-1">
+        <div class="result__container py-3 py-sm-4 mt-sm-2">
+        <h3>Sorry, there were no results for that query. Here's a random one!</h3>
+        </div>
+    </div>
+    `;
+
+  if (error.status === 404 && error.responseJSON.data === 'No activity found') {
+    $(noActivity)
+      .appendTo('#result')
+      .css('opacity', 0)
+      .animate({
+        opacity: 1
+      });
+  }
+
   $(result)
     .appendTo('#result')
     .css('opacity', 0)
@@ -112,19 +137,40 @@ function handleSearchResponse(response) {
     'Result',
     `/activities/${activity.id}`
   );
+
+  let pastResults = JSON.parse(localStorage.getItem('pastResults'));
+
+  if (pastResults === null) {
+    pastResults = [];
+  }
+
+  if (pastResults.length < 50) {
+    pastResults.push(activity);
+  } else if (pastResults.length >= 50) {
+    pastResults.shift();
+    pastResults.push(activity);
+  }
+
+  localStorage.setItem('pastResults', JSON.stringify(pastResults));
 }
 
 $(document).ready(function() {
   updateSearchFormData();
 
-  $('#activity-search-form').find('input,select').on('change blur', function() {
-    updateSearchFormData();
-  });
+  $('#activity-search-form')
+    .find('input,select')
+    .on('change blur', function() {
+      updateSearchFormData();
+    });
 
   $('#activity-search-form').on('submit', function(e) {
     var type = $('#search-type option:selected').attr('value');
     var audience = $('#search-audience option:selected').attr('value');
     var free = $('#search-free').is(':checked');
+    let pastResults = JSON.parse(localStorage.getItem('pastResults'));
+    if (pastResults !== null && pastResults.length >= 3) {
+      pastResults = JSON.stringify(pastResults.slice(pastResults.length - 3));
+    }
 
     updateSearchFormData();
 
@@ -134,14 +180,34 @@ $(document).ready(function() {
       data: {
         type,
         audience,
-        free
+        free,
+        pastResults
       },
       dataType: 'json',
-      success: handleSearchResponse
+      success: handleSearchResponse,
+      error: function(xhr, status) {
+        if (
+          xhr.status === 404 &&
+          xhr.responseJSON.data === 'No activity found'
+        ) {
+          $.ajax({
+            type: 'post',
+            url: '/activities',
+            data: { free, pastResults },
+            dataType: 'json',
+            success: function(response) {
+              handleSearchResponse(response, xhr);
+            }
+          });
+        }
+      }
     });
   });
 
-  if (typeof sharedActivity === 'object' && sharedActivity.hasOwnProperty('title')) {
+  if (
+    typeof sharedActivity === 'object' &&
+    sharedActivity.hasOwnProperty('title')
+  ) {
     handleSearchResponse(sharedActivity);
   }
 });
