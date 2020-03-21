@@ -5,9 +5,9 @@ var getAudiences = require('../middleware/getAudiences');
 
 /* GET home page. */
 router.get('/', getActivityTypes, getAudiences, function(req, res, next) {
-  res.render('index', { 
-    title: 'Quarantine Fun!', 
-    types: req.types, 
+  res.render('index', {
+    title: 'Things to do when the world gets cancelled.', 
+    types: req.types,
     audiences: req.audiences,
     layout: 'fullscreen'
   });
