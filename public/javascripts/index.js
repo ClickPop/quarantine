@@ -10,12 +10,12 @@ function updateSearchFormDataLayer() {
     var updated = false;
     for (i = 0; i < count; i++) {
       if (typeof dataLayer[i] === 'object' && dataLayer[i].hasOwnProperty('activity-search-form-data')) {
-        dataLayer[i] = searchFormData;
+        dataLayer[i] = JSON.stringify(searchFormData);
         updated = true;
       }
     }
     if (!updated) {
-      dataLayer.push({'activity-search-form-data': searchFormData});
+      dataLayer.push({'activity-search-form-data': JSON.stringify(searchFormData)});
     }
   }
 }
@@ -23,14 +23,17 @@ function updateSearchFormDataLayer() {
 function updateSearchFormData() {
   $('#activity-search-form').find('select,input,textarea').each(function() {
     var $this = $(this);
-    var value = $this.val();
     var id = $this.attr('id');
+    var value = $this.val();
+    var label = false;
 
     if (id === 'search-type') {
-      searchFormData.type = value;
+      label = $this.find(`option[value=${value}]`).text();
+      searchFormData.type = label;
     }
     if (id === 'search-audience') {
-      searchFormData.audience = value;
+      label = $this.find(`option[value=${value}]`).text();
+      searchFormData.audience = ;
     }
     if (id === 'search-free') {
       searchFormData.free = ($this.is(':checked')) ? true : false;
