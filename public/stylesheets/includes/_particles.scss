@@ -1,0 +1,34 @@
+:root {
+  --color-bg: #FDF1F2;
+  --color-heart: #EA442B;
+  --easing: cubic-bezier(.7,0,.3,1);
+  --duration: .5s;
+}
+
+.particles {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  > * {
+   margin: auto;
+   grid-area: 1 / 1;
+ }
+}
+
+.particle {
+  height: .8em;
+  width: .4em;
+  border-radius: 50%;
+  background-color: red;
+  opacity: 0.3;
+  --percentage: calc( var(--i) / var(--total-particles) );
+  --t: calc( var(--percentage * 1turn ) );
+  transform: rotate(--t) translateY(0);
+  transition: all var(--duration) var(--easing);
+
+  .particles:hover & {
+    transform: rotate( calc( var(--percentage * 1turn ) ) ) translateY(300%);
+  }
+}
