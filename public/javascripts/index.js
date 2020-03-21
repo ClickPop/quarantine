@@ -60,6 +60,7 @@ function handleSearchResponse(response) {
   $('#logo').slideUp('fast');
   $('#miniLogo').slideDown('fast');
   $('#result').slideDown('fast');
+  $('#go').attr('value', 'New idea.');
   $('.form__container').addClass('bg--lavender');
 
   history.pushState(
