@@ -107,7 +107,11 @@ function handleSearchResponse(response, error) {
     </div>
     `;
 
-  if (error.status === 404 && error.responseJSON.data === 'No activity found') {
+  if (
+    error !== undefined &&
+    error.status === 404 &&
+    error.responseJSON.data === 'No activity found'
+  ) {
     $(noActivity)
       .appendTo('#result')
       .css('opacity', 0)
