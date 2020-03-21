@@ -30,7 +30,11 @@ app.engine(
   })
 );
 
-app.use(forceSecure(['thingstodowhentheworldgetscanceled.com']));
+app.use(forceSecure([
+  'thingstodowhentheworldgetscanceled.com',
+  'world-canceled-production.herokuapp.com',
+  'world-canceled-staging.herokuapp.com'
+]));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
