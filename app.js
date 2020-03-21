@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const hbs = require('express-handlebars');
+const forceSecure = require('force-secure-express');
 
 const indexRouter = require('./routes/index');
 const searchRouter = require('./routes/search');
@@ -29,6 +30,7 @@ app.engine(
   })
 );
 
+app.use(forceSecure(['thingstodowhentheworldgetscanceled.com']));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
