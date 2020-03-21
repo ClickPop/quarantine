@@ -1,47 +1,19 @@
-var searchFormData = {
-  type: '',
-  audience: '',
-  free: false
-};
-
-function updateSearchFormDataLayer() {
-  if (Array.isArray(dataLayer)) {
-    var count = dataLayer.length;
-    var updated = false;
-    for (i = 0; i < count; i++) {
-      if (
-        typeof dataLayer[i] === 'object' &&
-        dataLayer[i].hasOwnProperty('activity-search-form-data')
-      ) {
-        dataLayer[i] = searchFormData;
-        updated = true;
-      }
-    }
-    if (!updated) {
-      dataLayer.push({ 'activity-search-form-data': searchFormData });
-    }
-  }
-}
-
 function updateSearchFormData() {
   $('#activity-search-form')
-    .find('select,input,textarea')
+    .find('select')
     .each(function() {
       var $this = $(this);
       var value = $this.val();
+      var label = false;
       var id = $this.attr('id');
 
       if (id === 'search-type') {
-        searchFormData.type = value;
+        dataLayer.push({'actvity-search-type' : value});
       }
       if (id === 'search-audience') {
-        searchFormData.audience = value;
-      }
-      if (id === 'search-free') {
-        searchFormData.free = $this.is(':checked') ? true : false;
+        dataLayer.push({'actvity-search-audience' : value});
       }
     });
-  updateSearchFormDataLayer();
 }
 
 function handleSearchResponse(response, error) {
@@ -159,14 +131,6 @@ function handleSearchResponse(response, error) {
 }
 
 $(document).ready(function() {
-  updateSearchFormData();
-
-  $('#activity-search-form')
-    .find('input,select')
-    .on('change blur', function() {
-      updateSearchFormData();
-    });
-
   $('#activity-search-form').on('submit', function(e) {
     var type = $('#search-type option:selected').attr('value');
     var audience = $('#search-audience option:selected').attr('value');
