@@ -125,6 +125,7 @@ $(document).ready(function() {
   });
 
   $('#activity-search-form').on('submit', function(e) {
+    e.preventDefault();
     var type = $('#search-type option:selected').attr('value');
     var audience = $('#search-audience option:selected').attr('value');
     var free = $('#search-free').is(':checked');
