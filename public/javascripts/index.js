@@ -33,7 +33,7 @@ function updateSearchFormData() {
       searchFormData.audience = value;
     }
     if (id === 'search-free') {
-      searchFormData.free = ($this.is(':checked') ? true : false;
+      searchFormData.free = ($this.is(':checked')) ? true : false;
     }
   });
   updateSearchFormDataLayer();
@@ -120,7 +120,7 @@ $(document).ready(function() {
   $('#activity-search-form').find('input,select').on('change blur', function() {
     updateSearchFormData();
   });
-  
+
   $('#go').on('click', function(e) {
     e.preventDefault();
     var type = $('#search-type option:selected').attr('value');
