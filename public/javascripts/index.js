@@ -33,7 +33,7 @@ function updateSearchFormData() {
     }
     if (id === 'search-audience') {
       label = $this.find(`option[value=${value}]`).text();
-      searchFormData.audience = ;
+      searchFormData.audience = label;
     }
     if (id === 'search-free') {
       searchFormData.free = ($this.is(':checked')) ? true : false;
