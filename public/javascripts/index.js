@@ -1,3 +1,44 @@
+var searchFormData = {
+  type: "",
+  audience: "",
+  free: false
+};
+
+function updateSearchFormDataLayer() {
+  if (Array.isArray(dataLayer)) {
+    var count = dataLayer.length;
+    var updated = false;
+    for (i = 0; i < count; i++) {
+      if (typeof dataLayer[i] === 'object' && dataLayer[i].hasOwnProperty('activity-search-form-data')) {
+        dataLayer[i] = searchFormData;
+        updated = true;
+      }
+    }
+    if (!updated) {
+      dataLayer.push({'activity-search-form-data': searchFormData});
+    }
+  }
+}
+
+function updateSearchFormData() {
+  $('#activity-search-form').find('select,input,textarea').each(function() {
+    var $this = $(this);
+    var value = $this.val();
+    var id = $this.attr('id');
+
+    if (id === 'search-type') {
+      searchFormData.type = value;
+    }
+    if (id === 'search-audience') {
+      searchFormData.audience = value;
+    }
+    if (id === 'search-free') {
+      searchFormData.free = ($this.is(':checked') ? true : false;
+    }
+  });
+  updateSearchFormDataLayer();
+}
+
 function handleSearchResponse(response) {
   var activity = false;
   $('#result > div').remove();
@@ -74,11 +115,19 @@ function handleSearchResponse(response) {
 }
 
 $(document).ready(function() {
+  updateSearchFormData();
+
+  $('#activity-search-form').find('input,select').on('change blur', function() {
+    updateSearchFormData();
+  });
+  
   $('#go').on('click', function(e) {
     e.preventDefault();
     var type = $('#search-type option:selected').attr('value');
     var audience = $('#search-audience option:selected').attr('value');
     var free = $('#search-free').is(':checked');
+
+    updateSearchFormData();
 
     $.ajax({
       type: 'post',
