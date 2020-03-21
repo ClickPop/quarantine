@@ -8,14 +8,22 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta property="og:title" content="Things to do when the world gets cancelled." />
-  <meta property="og:title" content="An activity book for use while socially distancing." />
-  <meta property="og:image" content="https://world-canceled-staging.herokuapp.com/images/og-image.jpg" />
+  <meta property="og:title" content="{{title}}" />
+  {{#if subPage}}
+  <meta property="og:site_name" content="{{siteName}}" />
+  {{else}}
+  <meta property="og:description" content="An activity book for use while socially distancing." />
+  {{/if}}
+  <meta property="og:image" content="https://thingstodowhentheworldgetscanceled.com/images/og-image.jpg" />
 
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:title" content="Things to do when the world gets cancelled." />
-  <meta property="twitter:title" content="An activity book for use while socially distancing." />
-  <meta property="og:image" content="https://world-canceled-staging.herokuapp.com/images/og-image.jpg" />
+  <meta property="twitter:title" content="{{title}}" />
+  {{#if subPage}}
+  <meta property="twitter:description" content="{{siteName}}" />
+  {{else}}
+  <meta property="twitter:description" content="An activity book for use while socially distancing." />
+  {{/if}}
+  <meta property="twitter:image" content="https://thingstodowhentheworldgetscanceled.com/images/og-image.jpg" />
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

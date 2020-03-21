@@ -12,8 +12,18 @@ router.get('/:id', getActivityTypes, getAudiences, getActivity, getActivityContr
   && res.locals.activity.hasOwnProperty('title'))
     ? JSON.stringify(res.locals.activity)
     : null;
+  let subPage = false;
+  let title = 'Things to do when the world gets cancelled.'
+  let siteName = 'Things to do when the world gets cancelled.';
+  if (activity !== null) {
+    subPage = true;
+    title = res.locals.activity.title;
+  }
+
   res.render('index', {
-    title: 'Things to do when the world gets cancelled.', 
+    title: title,
+    subPage: subPage,
+    siteName: siteName,
     types: req.types,
     audiences: req.audiences,
     activity: activity,
