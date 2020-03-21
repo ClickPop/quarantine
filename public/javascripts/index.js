@@ -43,7 +43,7 @@ function handleSearchResponse(response) {
         <p>${activity.description}</p>
         ${
           activity.url !== undefined
-            ? `<a href=${activity.url} target="_blank" class="btn btn-dark btn-sm mt-1">Learn more</a>`
+            ? `<a href=${activity.url} id="learn-more" target="_blank" class="btn btn-dark btn-sm mt-1">Learn more</a>`
             : ''
         }
         ${activity.contributors !== undefined ? contributorInfo : ''}
