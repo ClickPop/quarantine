@@ -76,32 +76,29 @@ function handleSearchResponse(response, error) {
     </div>`;
 
   var noActivity = `
-    <div class="col-12 col-md-10 offset-md-1">
-        <div class="result__container py-3 py-sm-4 mt-sm-2">
-        <h3>Sorry, there were no results for that query. Here's a random one!</h3>
-        </div>
-    </div>
-    `;
+    <div class="alert alert-warning text-center" role="alert">
+      <p class="my-0"><strong>Sorry!</strong> There were no results for that query. Here's a random one!</p>
+    </div>`;
 
-  if (
-    error !== undefined &&
-    error.status === 404 &&
-    error.responseJSON.data === 'No activity found'
-  ) {
-    $(noActivity)
-      .appendTo('#result')
-      .css('opacity', 0)
-      .animate({
-        opacity: 1
-      });
-  }
-
-  $(result)
+  var $result = $(result)
     .appendTo('#result')
     .css('opacity', 0)
     .animate({
       opacity: 1
     });
+  
+  if (
+    error !== undefined &&
+    error.status === 404 &&
+    error.responseJSON.data === 'No activity found'
+  ) {
+    var $noActivity = $(noActivity)
+      .prependTo($result.find('.result__container').eq(0))
+      .css('opacity', 0)
+      .animate({
+        opacity: 1
+      });
+  }
 
   $('#logo').slideUp('fast');
   $('#miniLogo').slideDown('fast');
