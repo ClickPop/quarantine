@@ -1,19 +1,32 @@
-function updateSearchFormData() {
-  $('#activity-search-form')
-    .find('select')
-    .each(function() {
-      var $this = $(this);
-      var value = $this.val();
-      var label = false;
-      var id = $this.attr('id');
+// var searchFormData = {
+//   type: null,
+//   audience: null,
+//   free: null
+// };
 
-      if (id === 'search-type') {
-        dataLayer.push({'actvity-search-type' : value});
-      }
-      if (id === 'search-audience') {
-        dataLayer.push({'actvity-search-audience' : value});
-      }
-    });
+function updateSearchFormData() {
+  $('#activity-search-form').find('select,input,textarea').each(function() {
+    var $this = $(this);
+    var id = $this.attr('id');
+    var value = $this.val();
+    var label = false;
+
+    if (id === 'search-type') {
+      label = $this.find(`option[value=${value}]`).text();
+      dataLayer.push({'activity-search-type' : label});
+      // searchFormData.type = label;
+    }
+    if (id === 'search-audience') {
+      label = $this.find(`option[value=${value}]`).text();
+      dataLayer.push({'activity-search-audience' : label});
+      // searchFormData.audience = label;
+    }
+    if (id === 'search-free') {
+      label = ($this.is(':checked')) ? true : false;
+      dataLayer.push({'activity-search-free' : label});
+      // searchFormData.free = label;
+    }
+  });
 }
 
 function handleSearchResponse(response, error) {
@@ -71,7 +84,7 @@ function handleSearchResponse(response, error) {
       </div>
     </div>`;
 
-  const noActivity = `
+  var noActivity = `
     <div class="col-12 col-md-10 offset-md-1">
         <div class="result__container py-3 py-sm-4 mt-sm-2">
         <h3>Sorry, there were no results for that query. Here's a random one!</h3>
@@ -114,7 +127,7 @@ function handleSearchResponse(response, error) {
     `/activities/${activity.id}`
   );
 
-  let pastResults = JSON.parse(localStorage.getItem('pastResults'));
+  var pastResults = JSON.parse(localStorage.getItem('pastResults'));
 
   if (pastResults === null) {
     pastResults = [];
@@ -131,7 +144,9 @@ function handleSearchResponse(response, error) {
 }
 
 $(document).ready(function() {
+
   $('#activity-search-form').on('submit', function(e) {
+    e.preventDefault();
     var type = $('#search-type option:selected').attr('value');
     var audience = $('#search-audience option:selected').attr('value');
     var free = $('#search-free').is(':checked');
@@ -170,7 +185,12 @@ $(document).ready(function() {
         }
       }
     });
-  });
+  })
+  .find('select,input,textarea')
+  .on('change blur', function() {
+    updateSearchFormData();
+  })
+  .trigger('blur');
 
   if (
     typeof sharedActivity === 'object' &&

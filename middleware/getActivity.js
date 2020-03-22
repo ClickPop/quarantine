@@ -73,7 +73,6 @@ module.exports = function(req, res, next) {
               }
             });
           }
-          console.log(exists);
         } while (exists);
 
         next();
