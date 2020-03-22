@@ -133,11 +133,11 @@ function handleSearchResponse(response, error) {
 
 $(document).ready(function() {
   $.ajaxSetup({ cache: false });
-  
+
   $('#activity-search-form').on('submit', function(e) {
     e.preventDefault();
-    var type = $('#search-type option:selected').attr('value');
-    var audience = $('#search-audience option:selected').attr('value');
+    var type = $('#search-type').val();
+    var audience = $('#search-audience').val();
     var free = $('#search-free').is(':checked');
     var pastResults = JSON.parse(localStorage.getItem('pastResults'));
     if (pastResults !== null && pastResults.length >= 3) {
@@ -152,8 +152,7 @@ $(document).ready(function() {
       data: {
         type,
         audience,
-        free,
-        pastResults
+        free
       },
       dataType: 'json',
       success: handleSearchResponse,
