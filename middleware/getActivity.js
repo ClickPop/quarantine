@@ -7,11 +7,12 @@ const api_base = process.env.AIRTABLE_BASE;
 const base = new airtable({ apiKey: api_key }).base(api_base);
 
 module.exports = function(req, res, next) {
-  var { type, audience, free } = req.body;
+  var { type, audience, free, pastResults } = req.body;
   var formula = false;
   var formulaParts = ['{approved} = 1'];
   var selectArgs = {};
   var activities = [];
+  var pastResults = [];
 
   if (typeof free !== 'undefined' && free === 'true') {
     formulaParts.push(`{is_free} = 1`);
@@ -25,8 +26,10 @@ module.exports = function(req, res, next) {
   if (req.params.id !== undefined) {
     formulaParts.push(`RECORD_ID() = '${req.params.id}'`);
   }
-  if (req.body.pastResults !== undefined) {
-    var pastResults = JSON.parse(req.body.pastResults);
+  if (req.body.pastResults !== undefined 
+    && Array.isArray(req.body.pastResults)
+    && req.body.pastResults.length > 0) {
+    pastResults = req.body.pastResults;
   }
   selectArgs.view = 'Grid view';
   if (formulaParts.length > 0) {
@@ -58,22 +61,36 @@ module.exports = function(req, res, next) {
         }
 
         let exists;
-        do {
-          exists = false;
+        let allUsed = true;
+        let checkPastResults = false;
+        let allowedActivities = [];
+
+        if (
+          Array.isArray(pastResults) &&
+          pastResults.length > 0
+        ) { checkPastResults = true; }
+          
+        if (checkPastResults) {
+          activities.forEach((tempActivity, tempActivityIndex) => {
+            if (pastResults.indexOf(tempActivity.id) === -1) {
+              allUsed = false;
+              allowedActivities.push(tempActivityIndex);
+            }
+          });
+        }
+
+        if (checkPastResults && res.locals.activity !== undefined) {
+          if (allUsed) {
+            exists = false;
+          } else if (pastResults.indexOf(res.locals.activity.id) === -1) {
+            let index = Math.round(Math.random() * (allowedActivities.length - 1));
+            res.locals.activity = 
+              activities[Math.round(Math.random() * (allowedActivities.length - 1))];
+          }
+        } else {
           res.locals.activity =
             activities[Math.round(Math.random() * (activities.length - 1))];
-          if (
-            pastResults !== undefined &&
-            pastResults.length >= 1 &&
-            res.locals.activity !== undefined
-          ) {
-            pastResults.forEach(result => {
-              if (result.id === res.locals.activity.id) {
-                exists = true;
-              }
-            });
-          }
-        } while (exists);
+        }
 
         next();
       }
