@@ -1,3 +1,41 @@
+function pastResultsFilter(activity) {
+  return (typeof activity === 'string' 
+  && activity.length > 10 
+  && activity.length < 20
+  && activity.indexOf('rec') === 0);
+}
+function getPastResults() {
+  var pastResults = store.get('pastResults');
+  
+  if (Array.isArray(pastResults)) {
+    pastResults = pastResults.filter(pastResultsFilter);
+    
+    while (pastResults.length > 50) {
+      pastResults.shift();
+    }
+  } else {
+    pastResults = [];
+    store.remove('pastResults');
+  }
+  
+  return pastResults;
+}
+
+function updatePastResults(pastResults, activity) {
+  if (Array.isArray(pastResults)) {
+    while (pastResults.length >= 50) {
+      pastResults.shift();
+    }
+  } else {
+    pastResults = [];
+  }
+
+  pastResults.push(activity.id);
+  
+  store.set('pastResults', pastResults);
+  return pastResults;
+}
+
 function updateSearchFormData() {
   $('#activity-search-form').find('select,input,textarea').each(function() {
     var $this = $(this);
@@ -52,12 +90,11 @@ function handleSearchResponse(response, error) {
       </li>`);
     });
   }
-  contributorPeople.join('');
 
   var contributorInfo = `
     <div class="mt-5 mb-2">
       This great idea came from...
-      <ul class="p-0 d-flex">${contributorPeople}</ul>
+      <ul class="p-0 d-flex">${contributorPeople.join('')}</ul>
     </div>
   `;
 
@@ -107,6 +144,9 @@ function handleSearchResponse(response, error) {
   $('#go').attr('value', 'New idea.');
   $('.form__container').addClass('bg--lavender');
 
+  console.log(activity);
+  pastResults = updatePastResults(pastResults, activity);
+
   history.pushState(
     {
       id: 'searchResult'
@@ -114,22 +154,9 @@ function handleSearchResponse(response, error) {
     'Result',
     `/activities/${activity.id}`
   );
-
-  var pastResults = JSON.parse(localStorage.getItem('pastResults'));
-
-  if (pastResults === null) {
-    pastResults = [];
-  }
-
-  if (pastResults.length < 50) {
-    pastResults.push(activity);
-  } else if (pastResults.length >= 50) {
-    pastResults.shift();
-    pastResults.push(activity);
-  }
-
-  localStorage.setItem('pastResults', JSON.stringify(pastResults));
 }
+
+var pastResults = getPastResults();
 
 $(document).ready(function() {
   $.ajaxSetup({ cache: false });
@@ -139,9 +166,9 @@ $(document).ready(function() {
     var type = $('#search-type').val();
     var audience = $('#search-audience').val();
     var free = $('#search-free').is(':checked');
-    var pastResults = JSON.parse(localStorage.getItem('pastResults'));
-    if (pastResults !== null && pastResults.length >= 3) {
-      pastResults = JSON.stringify(pastResults.slice(pastResults.length - 3));
+    var pastResultsTrimmed = pastResults;
+    if (pastResultsTrimmed !== null && pastResultsTrimmed.length >= 5) {
+      pastResultsTrimmed = pastResults.slice(pastResults.length - 5);
     }
 
     updateSearchFormData();
@@ -152,7 +179,8 @@ $(document).ready(function() {
       data: {
         type,
         audience,
-        free
+        free,
+        pastResults: pastResultsTrimmed
       },
       dataType: 'json',
       success: handleSearchResponse,
