@@ -25,7 +25,9 @@ module.exports = function(req, res, next) {
   if (req.params.id !== undefined) {
     formulaParts.push(`RECORD_ID() = '${req.params.id}'`);
   }
-
+  if (req.body.pastResults !== undefined) {
+    var pastResults = JSON.parse(req.body.pastResults);
+  }
   selectArgs.view = 'Grid view';
   if (formulaParts.length > 0) {
     selectArgs.filterByFormula = `AND(${formulaParts.join(', ')})`;
@@ -54,8 +56,24 @@ module.exports = function(req, res, next) {
         if (err) {
           next(err);
         }
-        res.locals.activity =
-          activities[Math.round(Math.random() * (activities.length - 1))];
+
+        let exists;
+        do {
+          exists = false;
+          res.locals.activity =
+            activities[Math.round(Math.random() * (activities.length - 1))];
+          if (
+            pastResults !== undefined &&
+            pastResults.length >= 1 &&
+            res.locals.activity !== undefined
+          ) {
+            pastResults.forEach(result => {
+              if (result.id === res.locals.activity.id) {
+                exists = true;
+              }
+            });
+          }
+        } while (exists);
 
         next();
       }

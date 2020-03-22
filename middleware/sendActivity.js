@@ -11,6 +11,12 @@ module.exports = function(req, res) {
       success: true,
       data: activity
     };
+  } else if (activity === undefined) {
+    status = 404;
+    data = {
+      success: false,
+      data: 'No activity found'
+    };
   }
   res.status(status).send(JSON.stringify(data));
 };
