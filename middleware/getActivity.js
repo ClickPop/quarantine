@@ -7,7 +7,7 @@ const api_base = process.env.AIRTABLE_BASE;
 const base = new airtable({ apiKey: api_key }).base(api_base);
 
 module.exports = function(req, res, next) {
-  var { type, audience, free } = req.body;
+  var { type, audience, free, pastResults } = req.body;
   var formula = false;
   var formulaParts = ['{approved} = 1'];
   var selectArgs = {};
@@ -25,14 +25,20 @@ module.exports = function(req, res, next) {
   if (req.params.id !== undefined) {
     formulaParts.push(`RECORD_ID() = '${req.params.id}'`);
   }
-  if (req.body.pastResults !== undefined) {
-    var pastResults = JSON.parse(req.body.pastResults);
+  if (
+    pastResults !== undefined &&
+    pastResults !== '' &&
+    typeof pastResults === 'string'
+  ) {
+    pastResults = JSON.parse(pastResults);
   }
+
+  console.log(typeof pastResults);
+
   selectArgs.view = 'Grid view';
   if (formulaParts.length > 0) {
     selectArgs.filterByFormula = `AND(${formulaParts.join(', ')})`;
   }
-
   base('activities')
     .select(selectArgs)
     .eachPage(
@@ -63,6 +69,7 @@ module.exports = function(req, res, next) {
           res.locals.activity =
             activities[Math.round(Math.random() * (activities.length - 1))];
           if (
+            typeof pastResults === 'object' &&
             pastResults !== undefined &&
             pastResults.length >= 1 &&
             res.locals.activity !== undefined

@@ -1,23 +1,25 @@
 function updateSearchFormData() {
-  $('#activity-search-form').find('select,input,textarea').each(function() {
-    var $this = $(this);
-    var id = $this.attr('id');
-    var value = $this.val();
-    var label = false;
+  $('#activity-search-form')
+    .find('select,input,textarea')
+    .each(function() {
+      var $this = $(this);
+      var id = $this.attr('id');
+      var value = $this.val();
+      var label = false;
 
-    if (id === 'search-type') {
-      label = $this.find(`option[value=${value}]`).text();
-      dataLayer.push({'activity-search-type' : label});
-    }
-    if (id === 'search-audience') {
-      label = $this.find(`option[value=${value}]`).text();
-      dataLayer.push({'activity-search-audience' : label});
-    }
-    if (id === 'search-free') {
-      label = ($this.is(':checked')) ? true : false;
-      dataLayer.push({'activity-search-free' : label});
-    }
-  });
+      if (id === 'search-type') {
+        label = $this.find(`option[value=${value}]`).text();
+        dataLayer.push({ 'activity-search-type': label });
+      }
+      if (id === 'search-audience') {
+        label = $this.find(`option[value=${value}]`).text();
+        dataLayer.push({ 'activity-search-audience': label });
+      }
+      if (id === 'search-free') {
+        label = $this.is(':checked') ? true : false;
+        dataLayer.push({ 'activity-search-free': label });
+      }
+    });
 }
 
 function handleSearchResponse(response, error) {
@@ -86,7 +88,7 @@ function handleSearchResponse(response, error) {
     .animate({
       opacity: 1
     });
-  
+
   if (
     error !== undefined &&
     error.status === 404 &&
@@ -134,51 +136,62 @@ function handleSearchResponse(response, error) {
 $(document).ready(function() {
   $.ajaxSetup({ cache: false });
 
-  $('#activity-search-form').on('submit', function(e) {
-    e.preventDefault();
-    var type = $('#search-type').val();
-    var audience = $('#search-audience').val();
-    var free = $('#search-free').is(':checked');
-    var pastResults = JSON.parse(localStorage.getItem('pastResults'));
-    if (pastResults !== null && pastResults.length >= 3) {
-      pastResults = JSON.stringify(pastResults.slice(pastResults.length - 3));
-    }
-
-    updateSearchFormData();
-
-    $.ajax({
-      type: 'post',
-      url: '/activities',
-      data: {
-        type,
-        audience,
-        free
-      },
-      dataType: 'json',
-      success: handleSearchResponse,
-      error: function(xhr, status) {
-        if (
-          xhr.status === 404 &&
-          xhr.responseJSON.data === 'No activity found'
-        ) {
-          $.ajax({
-            type: 'post',
-            url: '/activities',
-            data: { free, pastResults },
-            dataType: 'json',
-            success: function(response) {
-              handleSearchResponse(response, xhr);
-            }
-          });
-        }
+  $('#activity-search-form')
+    .on('submit', function(e) {
+      e.preventDefault();
+      var type = $('#search-type').val();
+      var audience = $('#search-audience').val();
+      var free = $('#search-free').is(':checked');
+      var pastResults = JSON.parse(localStorage.getItem('pastResults'));
+      if (pastResults !== null && pastResults.length >= 3) {
+        pastResults = JSON.stringify(pastResults.slice(pastResults.length - 3));
+      } else if (
+        pastResults !== null &&
+        pastResults.length < 3 &&
+        pastResults.length > 0
+      ) {
+        pastResults = JSON.stringify(pastResults);
+      } else if (pastResults === null) {
+        pastResults = '';
       }
-    });
-  })
-  .find('select,input,textarea')
-  .on('change blur', function() {
-    updateSearchFormData();
-  })
-  .trigger('blur');
+      console.log(typeof pastResults);
+
+      updateSearchFormData();
+
+      $.ajax({
+        type: 'post',
+        url: '/activities',
+        data: {
+          type,
+          audience,
+          free,
+          pastResults
+        },
+        dataType: 'json',
+        success: handleSearchResponse,
+        error: function(xhr, status) {
+          if (
+            xhr.status === 404 &&
+            xhr.responseJSON.data === 'No activity found'
+          ) {
+            $.ajax({
+              type: 'post',
+              url: '/activities',
+              data: { free, pastResults },
+              dataType: 'json',
+              success: function(response) {
+                handleSearchResponse(response, xhr);
+              }
+            });
+          }
+        }
+      });
+    })
+    .find('select,input,textarea')
+    .on('change blur', function() {
+      updateSearchFormData();
+    })
+    .trigger('blur');
 
   if (
     typeof sharedActivity === 'object' &&
