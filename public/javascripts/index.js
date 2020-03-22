@@ -1,9 +1,3 @@
-// var searchFormData = {
-//   type: null,
-//   audience: null,
-//   free: null
-// };
-
 function updateSearchFormData() {
   $('#activity-search-form').find('select,input,textarea').each(function() {
     var $this = $(this);
@@ -14,17 +8,14 @@ function updateSearchFormData() {
     if (id === 'search-type') {
       label = $this.find(`option[value=${value}]`).text();
       dataLayer.push({'activity-search-type' : label});
-      // searchFormData.type = label;
     }
     if (id === 'search-audience') {
       label = $this.find(`option[value=${value}]`).text();
       dataLayer.push({'activity-search-audience' : label});
-      // searchFormData.audience = label;
     }
     if (id === 'search-free') {
       label = ($this.is(':checked')) ? true : false;
       dataLayer.push({'activity-search-free' : label});
-      // searchFormData.free = label;
     }
   });
 }
