@@ -18,3 +18,13 @@ h1 {
     font-size: 1.4rem;
   }
 }
+
+.text {
+  &--slate {
+    color: $slate;
+  }
+
+  &--mustard {
+    color: $mustard;
+  }
+}
