@@ -14,23 +14,25 @@ module.exports = function(req, res, next) {
   var activities = [];
   var pastResults = [];
 
-  if (typeof free !== 'undefined' && free === 'true') {
-    formulaParts.push(`{is_free} = 1`);
-  }
-  if (typeof type === 'string' && type.length > 0) {
-    formulaParts.push(`FIND('${type}', ARRAYJOIN({type_ids}, ', '))`);
-  }
-  if (typeof audience === 'string' && audience.length > 0) {
-    formulaParts.push(`FIND('${audience}', ARRAYJOIN({audience_ids}, ', '))`);
-  }
   if (req.params.id !== undefined) {
     formulaParts.push(`RECORD_ID() = '${req.params.id}'`);
+  } else {
+    if (typeof free !== 'undefined' && free === 'true') {
+      formulaParts.push(`{is_free} = 1`);
+    }
+    if (typeof type === 'string' && type.length > 0) {
+      formulaParts.push(`FIND('${type}', ARRAYJOIN({type_ids}, ', '))`);
+    }
+    if (typeof audience === 'string' && audience.length > 0) {
+      formulaParts.push(`FIND('${audience}', ARRAYJOIN({audience_ids}, ', '))`);
+    }
   }
   if (req.body.pastResults !== undefined 
     && Array.isArray(req.body.pastResults)
     && req.body.pastResults.length > 0) {
     pastResults = req.body.pastResults;
   }
+
   selectArgs.view = 'Grid view';
   if (formulaParts.length > 0) {
     selectArgs.filterByFormula = `AND(${formulaParts.join(', ')})`;
@@ -60,10 +62,12 @@ module.exports = function(req, res, next) {
           next(err);
         }
 
-        let exists;
         let allUsed = true;
         let checkPastResults = false;
         let allowedActivities = [];
+
+        res.locals.activity =
+          activities[Math.round(Math.random() * (activities.length - 1))];
 
         if (
           Array.isArray(pastResults) &&
@@ -77,19 +81,12 @@ module.exports = function(req, res, next) {
               allowedActivities.push(tempActivityIndex);
             }
           });
-        }
 
-        if (checkPastResults && res.locals.activity !== undefined) {
-          if (allUsed) {
-            exists = false;
-          } else if (pastResults.indexOf(res.locals.activity.id) === -1) {
-            let index = Math.round(Math.random() * (allowedActivities.length - 1));
+          if (allowedActivities.length > 0 && !allUsed) {
+            let i = allowedActivities[Math.round(Math.random() * (allowedActivities.length - 1))] 
             res.locals.activity = 
-              activities[Math.round(Math.random() * (allowedActivities.length - 1))];
+              activities[i];
           }
-        } else {
-          res.locals.activity =
-            activities[Math.round(Math.random() * (activities.length - 1))];
         }
 
         next();

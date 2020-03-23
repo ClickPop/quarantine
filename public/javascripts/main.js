@@ -151,7 +151,6 @@ function handleSearchResponse(response, error) {
   $('#go').attr('value', 'New idea.');
   $('.form__container').addClass('bg--lavender');
 
-  console.log(activity);
   pastResults = updatePastResults(pastResults, activity);
 
   history.pushState(
@@ -178,7 +177,7 @@ $(document).ready(function() {
       pastResultsTrimmed = pastResults.slice(pastResults.length - 5);
     }
 
-    updateSearchFormData();
+    if (typeof dataLayer !== 'undefined')  updateSearchFormData();
 
     $.ajax({
       type: 'post',
@@ -211,7 +210,7 @@ $(document).ready(function() {
   })
   .find('select,input,textarea')
   .on('change blur', function() {
-    updateSearchFormData();
+    if (typeof dataLayer !== 'undefined') updateSearchFormData();
   })
   .trigger('blur');
 
