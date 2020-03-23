@@ -23,9 +23,9 @@ app.engine(
     defaultLayout: 'default',
     layoutDir: path.join(__dirname, 'views', 'layouts'), // for layouts
     partialsDir: [
-      //  path to your partials
       path.join(__dirname, 'views', 'partials')
-    ]
+    ],
+    helpers: require('./config/handlebars-helpers')
   })
 );
 
