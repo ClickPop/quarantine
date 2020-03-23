@@ -31,6 +31,7 @@ module.exports = function(req, res, next) {
     && req.body.pastResults.length > 0) {
     pastResults = req.body.pastResults;
   }
+  console.log('Past Results <post init>', pastResults);
   selectArgs.view = 'Grid view';
   if (formulaParts.length > 0) {
     selectArgs.filterByFormula = `AND(${formulaParts.join(', ')})`;
@@ -69,12 +70,16 @@ module.exports = function(req, res, next) {
           Array.isArray(pastResults) &&
           pastResults.length > 0
         ) { checkPastResults = true; }
+        console.log('check past results?', checkPastResults);
           
         if (checkPastResults) {
           activities.forEach((tempActivity, tempActivityIndex) => {
             if (pastResults.indexOf(tempActivity.id) === -1) {
               allUsed = false;
               allowedActivities.push(tempActivityIndex);
+              console.log(tempActivity.id, 'allowed');
+            } else {
+              console.log(tempActivity.id, 'NOT allowed');
             }
           });
         }
