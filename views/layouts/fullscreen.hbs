@@ -25,6 +25,7 @@
   {{/if}}
   <meta property="twitter:image" content="https://thingstodowhentheworldgetscanceled.com/images/og-image.jpg" />
 
+  {{#ifeq environment "production"}}
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -32,6 +33,7 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-T6H2XNL');</script>
   <!-- End Google Tag Manager -->
+  {{/ifeq}}
 </head>
 
 <body class="fullscreen d-sm-flex flex-column justify-content-center align-items-center p-2">
@@ -62,7 +64,7 @@
       </div>
     </div>
 
-    <div id="result" class="row px-3" style="height: 500px; display: none;"></div>
+    <div id="result" class="row px-3" style="min-height: 500px; display: none;"></div>
 
   </div>
 

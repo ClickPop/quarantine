@@ -1,15 +1,15 @@
 function pastResultsFilter(activity) {
-  return (typeof activity === 'string' 
-  && activity.length > 10 
+  return (typeof activity === 'string'
+  && activity.length > 10
   && activity.length < 20
   && activity.indexOf('rec') === 0);
 }
 function getPastResults() {
   var pastResults = store.get('pastResults');
-  
+
   if (Array.isArray(pastResults)) {
     pastResults = pastResults.filter(pastResultsFilter);
-    
+
     while (pastResults.length > 50) {
       pastResults.shift();
     }
@@ -17,7 +17,7 @@ function getPastResults() {
     pastResults = [];
     store.remove('pastResults');
   }
-  
+
   return pastResults;
 }
 
@@ -31,7 +31,7 @@ function updatePastResults(pastResults, activity) {
   }
 
   pastResults.push(activity.id);
-  
+
   store.set('pastResults', pastResults);
   return pastResults;
 }
@@ -92,7 +92,7 @@ function handleSearchResponse(response, error) {
   }
 
   var contributorInfo = `
-    <div class="mt-5 mb-2">
+    <div class="mt-4">
       This great idea came from...
       <ul class="p-0 d-flex">${contributorPeople.join('')}</ul>
     </div>
@@ -100,15 +100,22 @@ function handleSearchResponse(response, error) {
 
   var result = `
     <div class="col-12 col-md-10 offset-md-1">
-      <div class="result__container py-3 py-sm-4 mt-sm-2">
+      <div class="result__container py-3 py-sm-4 my-sm-4">
         <h1>${activity.title}</h1>
-        <p>${activity.description}</p>
-        ${
+        <p>${activity.description} ${
           activity.url !== undefined
-            ? `<a href=${activity.url} id="learn-more" target="_blank" class="btn btn-dark btn-sm mt-1">Learn more</a>`
+            ? `<small class="font-weight-bold"><a href=${activity.url} id="learn-more" target="_blank">Learn more...</a></small>`
             : ''
-        }
+        }</p>
         ${activity.contributors !== undefined ? contributorInfo : ''}
+        <div class="notice notice--warning pl-2 pr-3 py-2 mt-5 bg--slate">
+          <div>
+            ⚠️
+          </div>
+          <div>
+            In-person activities are for people who share a house only. Please follow the <a href="https://www.cdc.gov/coronavirus/2019-ncov/community/index.html" class="text--mustard">CDC guidelines</a> regarding social distancing. We have plenty of ideas for people in different locations to connect using the magic of the internet.
+          </div>
+        </div>
       </div>
     </div>`;
 
@@ -123,7 +130,7 @@ function handleSearchResponse(response, error) {
     .animate({
       opacity: 1
     });
-  
+
   if (
     error !== undefined &&
     error.status === 404 &&

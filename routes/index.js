@@ -9,7 +9,8 @@ router.get('/', getActivityTypes, getAudiences, function(req, res, next) {
     title: 'Things to do when the world gets cancelled.', 
     types: req.types,
     audiences: req.audiences,
-    layout: 'fullscreen'
+    layout: 'fullscreen',
+    environment: req.app.get('env')
   });
 });
 
