@@ -1,0 +1,9 @@
+.notice {
+  border-radius: 6px;
+  display: flex;
+  font-size: .8rem;
+
+  > div {
+    margin-right: .5rem;
+  }
+}
