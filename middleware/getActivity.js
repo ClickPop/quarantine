@@ -27,9 +27,11 @@ module.exports = function(req, res, next) {
       formulaParts.push(`FIND('${audience}', ARRAYJOIN({audience_ids}, ', '))`);
     }
   }
-  if (req.body.pastResults !== undefined 
-    && Array.isArray(req.body.pastResults)
-    && req.body.pastResults.length > 0) {
+  if (
+    req.body.pastResults !== undefined &&
+    Array.isArray(req.body.pastResults) &&
+    req.body.pastResults.length > 0
+  ) {
     pastResults = req.body.pastResults;
   }
 
@@ -69,11 +71,10 @@ module.exports = function(req, res, next) {
         res.locals.activity =
           activities[Math.round(Math.random() * (activities.length - 1))];
 
-        if (
-          Array.isArray(pastResults) &&
-          pastResults.length > 0
-        ) { checkPastResults = true; }
-          
+        if (Array.isArray(pastResults) && pastResults.length > 0) {
+          checkPastResults = true;
+        }
+
         if (checkPastResults) {
           activities.forEach((tempActivity, tempActivityIndex) => {
             if (pastResults.indexOf(tempActivity.id) === -1) {
@@ -83,9 +84,11 @@ module.exports = function(req, res, next) {
           });
 
           if (allowedActivities.length > 0 && !allUsed) {
-            let i = allowedActivities[Math.round(Math.random() * (allowedActivities.length - 1))] 
-            res.locals.activity = 
-              activities[i];
+            let i =
+              allowedActivities[
+                Math.round(Math.random() * (allowedActivities.length - 1))
+              ];
+            res.locals.activity = activities[i];
           }
         }
 
