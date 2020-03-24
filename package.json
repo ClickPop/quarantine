@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start-live": "nodemon ./bin/www"
+    "live": "nodemon ./bin/www",
+    "start-live": "npm run live"
   },
   "dependencies": {
     "airtable": "0.8.1",

@@ -3,4 +3,12 @@
     position: absolute;
     top: 0;
   }
+
+  @media (max-width: $sm) {
+    display: block;
+
+    > div {
+      text-align: center;
+    }
+  }
 }
