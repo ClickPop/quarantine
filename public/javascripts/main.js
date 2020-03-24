@@ -80,21 +80,21 @@ function handleSearchResponse(response, error) {
   if (Array.isArray(contributors)) {
     contributors.forEach(function(contributor) {
       contributorPeople.push(`
-      <li class="d-flex align-items-center">
+      <li class="d-flex my-2 align-items-center">
         ${
           contributor.headshot !== undefined
-            ? `<img src=${contributor.headshot[0].url} class="img-thumbnail rounded-circle mr-2" width="60">`
+            ? `<img src=${contributor.headshot[0].url} class="img-thumbnail rounded-circle mx-1" width="50">`
             : ''
         }
-        <p class="m-0">${contributor.name}</p>
+        <p class="m-0 contributor__name font-weight-bold">${contributor.name}</p>
       </li>`);
     });
   }
 
   var contributorInfo = `
-    <div class="mt-4">
-      This great idea came from...
-      <ul class="p-0 d-flex">${contributorPeople.join('')}</ul>
+    <div class="mt-4 d-sm-flex align-items-center">
+      <div>This idea came from</div>
+      <ul class="p-0 m-0 d-flex">${contributorPeople.join('')}</ul>
     </div>
   `;
 
