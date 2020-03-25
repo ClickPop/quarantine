@@ -1,3 +1,113 @@
+function validateRecordID(string) {
+  return (typeof string === 'string'
+      && string.length > 10
+      && string.length < 20
+      && string.indexOf('rec') === 0);
+}
+
+function validateVoteAction(string) {
+  actionValues = ['up', 'down', 'remove'];
+  return (typeof string === 'string'
+      && actionValues.includes(string));
+}
+
+function handleUserScoresResponse(response, error) {
+  var user_score = 0;
+  var current_score = 0;
+  var id = null;
+  var valid = false;
+  
+  var $result = $('.result__container');
+  var $description = $result.find('.description');
+
+  var result_id = $result.data('id');
+
+  if (typeof response === 'object'
+  && response.hasOwnProperty('data')
+  && typeof response.data === 'object') {
+    
+    if (response.data.hasOwnProperty('id')
+    && response.data.hasOwnProperty('user_score')
+    && response.data.hasOwnProperty('current_score')) {
+      
+      id = response.data.id;
+      user_score = parseInt(response.data.user_score);
+      current_score = parseInt(response.data.current_score);
+      
+      if (id === result_id 
+      && !isNaN(user_score)
+      && !isNaN(current_score)) {
+        valid = true;
+      }
+    }
+  }
+
+  if (valid) {
+    if (user_score > 0) {
+      upClass = "btn btn-sm btn-primary";
+      upAction = "remove";
+      downClass = "btn btn-sm btn-outline-primary";
+      downAction = "down";
+    } else if (user_score < 0) {
+      upClass = "btn btn-sm btn-outline-primary";
+      upAction = "up";
+      downClass = "btn btn-sm btn-primary";
+      downAction = "remove";
+    } else {
+      upClass = "btn btn-sm btn-outline-primary";
+      upAction = "up";
+      downClass = "btn btn-sm btn-outline-primary";
+      downAction = "down";
+    }
+
+    voteHTML = `
+      <div class="result__votes">
+        <div class="btn-group" role="group" aria-label="What do you think?">
+          <button type="button" class="cast-vote ${downClass}" data-action="${downAction}">&darr;</button>
+          <button type="button" class="cast-vote ${upClass}" data-action="${upAction}">&uarr;</button>
+        </div>
+        <span class="result__votes__current_score">${current_score}</span>
+      </div>
+    `;
+
+    $votes = $result.find('.result__votes');
+    if ($votes.length) {
+      $votes.replaceWith(voteHTML);
+    } else {
+      $votes = $(voteHTML).insertAfter($description);
+    }
+  } else {
+    $result.find('.result__votes').remove();
+  }
+}
+
+function removeUserScores() {
+  $result.find('.result__votes').remove();
+}
+
+function vote(id, action) {
+  $.ajax({
+    type: 'post',
+    url: `/likes/add/`,
+    data: {
+      activity_id: id,
+      like_type: action
+    },
+    dataType: 'json',
+    success: handleUserScoresResponse,
+    error: removeUserScores
+  });
+}
+
+function implementUserScores(id) {
+  $.ajax({
+    type: 'get',
+    url: `/likes/${id}/`,
+    success: handleUserScoresResponse,
+    error: removeUserScores
+  });
+}
+
 function pastResultsFilter(activity) {
   return (typeof activity === 'string'
   && activity.length > 10
@@ -75,6 +185,7 @@ function handleSearchResponse(response, error) {
   } else {
     return false;
   }
+
   var contributors = activity.contributors;
   var contributorPeople = [];
 
@@ -101,9 +212,9 @@ function handleSearchResponse(response, error) {
 
   var result = `
     <div class="col-12 col-md-10 offset-md-1">
-      <div class="result__container py-3 py-sm-4 my-sm-4">
+      <div class="result__container py-3 py-sm-4 my-sm-4" data-id="${activity.id}">
         <h1>${activity.title}</h1>
-        <p>${activity.description} ${
+        <p class="description">${activity.description} ${
           activity.url !== undefined
             ? `<small class="font-weight-bold"><a href=${activity.url} id="learn-more" target="_blank">Learn more...</a></small>`
             : ''
@@ -131,7 +242,9 @@ function handleSearchResponse(response, error) {
     .animate({
       opacity: 1
     });
-
+  
+  implementUserScores(activity.id);
+  
   if (
     error !== undefined &&
     error.status === 404 &&
@@ -168,6 +281,14 @@ var pastResults = getPastResults();
 $(document).ready(function() {
   $.ajaxSetup({ cache: false });
 
+  $(document).on('click', '.cast-vote', function(e) {
+    e.preventDefault();
+    var action = $(this).attr('data-action');
+    var id = $('.result__container').attr('data-id');
+    if (validateVoteAction(action) && validateRecordID(id)) {
+      vote(id, action);
+    }
+  })
   $('#activity-search-form').on('submit', function(e) {
     e.preventDefault();
     var type = $('#search-type').val();

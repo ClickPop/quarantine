@@ -49,11 +49,13 @@ module.exports = (req, res, next) => {
                         res.locals.user_score = like.user_score;
                         res.locals.likes = likes;
                         res.locals.activity_id = activity_id;
-    
+                        
                         next();
                     } else {
-                        helpers.apiError(res, createError(500));
-                        return;
+                        res.locals.likes = [];
+                        res.locals.user_score = 0;
+                        res.locals.activity_id = activity_id;
+                        next();
                     }
                 }
             }
