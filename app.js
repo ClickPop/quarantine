@@ -1,15 +1,19 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const sassMiddleware = require('node-sass-middleware');
-const hbs = require('express-handlebars');
-const forceSecure = require('force-secure-express');
+// NPM Modules & Middleware
+const createError = require('http-errors'),
+  express = require('express'),
+  path = require('path'),
+  cookieParser = require('cookie-parser'),
+  logger = require('morgan'),
+  sassMiddleware = require('node-sass-middleware'),
+  hbs = require('express-handlebars'),
+  forceSecure = require('force-secure-express'),
+  useragent = require('express-useragent');
 
-const indexRouter = require('./routes/index');
-const contributorsRouter = require('./routes/contributors');
-const activitiesRouter = require('./routes/activities');
+// Routers
+const indexRouter = require('./routes/index'),
+  contributorsRouter = require('./routes/contributors'),
+  activitiesRouter = require('./routes/activities'),
+  likesRouter = require('./routes/likes');
 
 const app = express();
 
@@ -47,10 +51,13 @@ app.use(
   })
 );
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(useragent.express());
 
+// Router Initialization
 app.use('/', indexRouter);
 app.use('/contributors', contributorsRouter);
 app.use('/activities', activitiesRouter);
+app.use('/likes', likesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
