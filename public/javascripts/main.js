@@ -4,6 +4,7 @@ function pastResultsFilter(activity) {
   && activity.length < 20
   && activity.indexOf('rec') === 0);
 }
+
 function getPastResults() {
   var pastResults = store.get('pastResults');
 

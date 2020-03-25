@@ -62,6 +62,7 @@ module.exports = function(req, res, next) {
       function done(err) {
         if (err) {
           next(err);
+          return;
         }
 
         let allUsed = true;
