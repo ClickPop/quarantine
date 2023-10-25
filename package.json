@@ -8,7 +8,7 @@
     "start-live": "npm run live"
   },
   "dependencies": {
-    "airtable": "0.8.1",
+    "airtable": "0.12.2",
     "bootstrap": "4.4.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
